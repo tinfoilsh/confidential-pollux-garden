@@ -1,0 +1,28 @@
+shim-version: v0.2.10@sha256:f9040a48106ab06c290fd9b225d4dd53a2daad715c9107594d4310b21592039f
+cvm-version: 0.5.7
+cpus: 16
+memory: 65536
+vllm: false
+
+containers:
+  - name: "garden-app"
+    image: ""
+    args: [
+      "-e", "DATABASE_URL=$(awk -F': *' '$1~/^database-url$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
+      "-e", "NODE_ENV=production",
+      "-e", "RESEND_API_KEY=$(awk -F': *' '$1~/^resend-api-key$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
+      "-e", "RESEND_FROM_EMAIL=$(awk -F': *' '$1~/^resend-from-email$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
+      "-e", "GOOGLE_CLIENT_ID=$(awk -F': *' '$1~/^google-client-id$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
+      "-e", "GOOGLE_CLIENT_SECRET=$(awk -F': *' '$1~/^google-client-secret$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
+      "us-central1-docker.pkg.dev/workshop-labs-pbc/garden-docker/app:latest"
+    ]
+
+shim:
+  listen-port: 443
+  upstream-port: 3000
+  publish-attestation: false
+  tls-challenge: dns
+  paths:
+    - /api/health
+    - /api/*
+    - /
