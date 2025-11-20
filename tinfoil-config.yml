@@ -41,6 +41,22 @@ shim:
   publish-attestation: false
   tls-challenge: dns
   paths:
-    - /api/health
-    - /api/*
     - /
+    - /beta
+    - /policy
+    - /login
+    - /register
+    - /auth-redirect
+    - /onboarding
+    - /dashboard
+    - /dashboard/*
+    - /garden
+    - /growing
+    - /chat/*
+    - /to-do
+    - /trees
+    - /enter
+    - /ascii-screenshots
+    - /test
+    - /test-training
+    - /api/*
