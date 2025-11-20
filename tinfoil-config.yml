@@ -26,7 +26,7 @@ containers:
       "-e", "GCS_BUCKET=pollux-tinfoil",
       "-e", "POLLUX_LN_GCS_BUCKET=gs://pollux-tinfoil",
       "-e", "POLLUX_GCSFUSE_MOUNT_PATH=/mnt/gcs",
-      "-e", "DATABASE_URL=$(awk -F': *' '$1~/^database-url$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
+      "-e", "DATABASE_URL=$(sed -n 's/^database-url: *//p' /mnt/ramdisk/external-config.yml)",
       "-e", "NODE_ENV=production",
       "-e", "RESEND_API_KEY=$(awk -F': *' '$1~/^resend-api-key$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
       "-e", "RESEND_FROM_EMAIL=$(awk -F': *' '$1~/^resend-from-email$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
