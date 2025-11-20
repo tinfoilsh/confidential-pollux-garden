@@ -5,9 +5,27 @@ memory: 65536
 vllm: false
 
 containers:
+  - name: "gcsfuse"
+    image: ""
+    args: [
+      "--cap-add", "SYS_ADMIN",
+      "--device", "/dev/fuse",
+      "--security-opt", "apparmor=unconfined",
+      "-v", "/mnt/ramdisk/gcs-bucket:/gcs:rshared",
+      "-v", "/mnt/ramdisk/gcloud_key.json:/key.json:ro",
+      "-e", "BUCKET_NAME=pollux-tinfoil",
+      "kapetacom/gcsfuse-ubuntu:v3.2.0"
+    ]
+
   - name: "garden-app"
     image: ""
     args: [
+      "-v", "/mnt/ramdisk/gcs-bucket:/mnt/gcs:ro",
+      "-v", "/mnt/ramdisk/gcloud_key.json:/key.json:ro",
+      "-e", "GOOGLE_APPLICATION_CREDENTIALS=/key.json",
+      "-e", "GCS_BUCKET=pollux-tinfoil",
+      "-e", "POLLUX_LN_GCS_BUCKET=gs://pollux-tinfoil",
+      "-e", "POLLUX_GCSFUSE_MOUNT_PATH=/mnt/gcs",
       "-e", "DATABASE_URL=$(awk -F': *' '$1~/^database-url$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
       "-e", "NODE_ENV=production",
       "-e", "RESEND_API_KEY=$(awk -F': *' '$1~/^resend-api-key$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
