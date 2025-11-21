@@ -32,7 +32,7 @@ containers:
       "-e", "RESEND_FROM_EMAIL=$(awk -F': *' '$1~/^resend-from-email$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
       "-e", "GOOGLE_CLIENT_ID=$(awk -F': *' '$1~/^google-client-id$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
       "-e", "GOOGLE_CLIENT_SECRET=$(awk -F': *' '$1~/^google-client-secret$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
-      "us-central1-docker.pkg.dev/workshop-labs-pbc/garden-docker/app:deb0925"
+      "us-central1-docker.pkg.dev/workshop-labs-pbc/garden-docker/app@sha256:0ab22d208b7d7ae8832e79b1817743e7d53586f827b4eef5954bc4e91b44681f"
     ]
 
 shim:
