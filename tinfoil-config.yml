@@ -40,23 +40,3 @@ shim:
   upstream-port: 3000
   publish-attestation: false
   tls-challenge: dns
-  paths:
-    - /
-    - /beta
-    - /policy
-    - /login
-    - /register
-    - /auth-redirect
-    - /onboarding
-    - /dashboard
-    - /dashboard/*
-    - /garden
-    - /growing
-    - /chat/*
-    - /to-do
-    - /trees
-    - /enter
-    - /ascii-screenshots
-    - /test
-    - /test-training
-    - /api/*
