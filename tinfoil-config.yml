@@ -1,8 +1,7 @@
-shim-version: v0.2.11@sha256:cbbbeeac855948610cd1ba5b406d10ffa13331cbbe7d25964ba3c90486f65810
-cvm-version: 0.5.7
+shim-version: v0.2.14@sha256:24d59ce41ad00a05ab5a37708b0d8b07a7d09abb1b74b75ee4862f688d093949
+cvm-version: 0.5.8
 cpus: 16
 memory: 65536
-vllm: false
 
 containers:
   - name: "gcsfuse"
@@ -13,7 +12,7 @@ containers:
       "--security-opt", "apparmor=unconfined",
       "-v", "/mnt/ramdisk/gcs-bucket:/gcs:rshared",
       "-v", "/mnt/ramdisk/gcloud_key.json:/key.json:ro",
-      "-e", "BUCKET_NAME=pollux-tinfoil",
+      "-e", "BUCKET_NAME=pollux-enc-prod",
       "kapetacom/gcsfuse-ubuntu:v3.2.0"
     ]
 
@@ -23,8 +22,8 @@ containers:
       "-v", "/mnt/ramdisk/gcs-bucket:/mnt/gcs:ro",
       "-v", "/mnt/ramdisk/gcloud_key.json:/key.json:ro",
       "-e", "GOOGLE_APPLICATION_CREDENTIALS=/key.json",
-      "-e", "GCS_BUCKET=pollux-tinfoil",
-      "-e", "POLLUX_LN_GCS_BUCKET=gs://pollux-tinfoil",
+      "-e", "GCS_BUCKET=pollux-enc-prod",
+      "-e", "POLLUX_LN_GCS_BUCKET=gs://pollux-enc-prod",
       "-e", "POLLUX_GCSFUSE_MOUNT_PATH=/mnt/gcs",
       "-e", "DATABASE_URL=$(sed -n 's/^database-url: *//p' /mnt/ramdisk/external-config.yml)",
       "-e", "NODE_ENV=production",
@@ -38,5 +37,5 @@ containers:
 shim:
   listen-port: 443
   upstream-port: 3000
-  publish-attestation: false
+  publish-attestation: true
   tls-challenge: dns
