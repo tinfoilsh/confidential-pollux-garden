@@ -25,13 +25,14 @@ containers:
       "-e", "GCS_BUCKET=pollux-enc-prod",
       "-e", "POLLUX_LN_GCS_BUCKET=gs://pollux-enc-prod",
       "-e", "POLLUX_GCSFUSE_MOUNT_PATH=/mnt/gcs",
+      "-e", "STAGING_DATABASE_URL=$(sed -n 's/^staging-database-url: *//p' /mnt/ramdisk/external-config.yml)",
       "-e", "DATABASE_URL=$(sed -n 's/^database-url: *//p' /mnt/ramdisk/external-config.yml)",
       "-e", "NODE_ENV=production",
       "-e", "RESEND_API_KEY=$(awk -F': *' '$1~/^resend-api-key$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
       "-e", "RESEND_FROM_EMAIL=$(awk -F': *' '$1~/^resend-from-email$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
       "-e", "GOOGLE_CLIENT_ID=$(awk -F': *' '$1~/^google-client-id$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
       "-e", "GOOGLE_CLIENT_SECRET=$(awk -F': *' '$1~/^google-client-secret$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
-      "us-central1-docker.pkg.dev/workshop-labs-pbc/garden-docker/app@sha256:0ab22d208b7d7ae8832e79b1817743e7d53586f827b4eef5954bc4e91b44681f"
+      "us-central1-docker.pkg.dev/workshop-labs-pbc/garden-docker/app@sha256:f984fce26ec71b75cce62cd82f24cbcfd6383d7672f3e63cac7a219b8e79a595"
     ]
 
 shim:
