@@ -2,7 +2,6 @@ shim-version: v0.2.14@sha256:24d59ce41ad00a05ab5a37708b0d8b07a7d09abb1b74b75ee48
 cvm-version: 0.5.8
 cpus: 16
 memory: 65536
-
 containers:
   - name: "gcsfuse"
     image: ""
@@ -15,13 +14,13 @@ containers:
       "-e", "BUCKET_NAME=pollux-enc-prod",
       "kapetacom/gcsfuse-ubuntu:v3.2.0"
     ]
-
   - name: "garden-app"
     image: ""
     args: [
       "-v", "/mnt/ramdisk/gcs-bucket:/mnt/gcs:ro",
       "-v", "/mnt/ramdisk/gcloud_key.json:/key.json:ro",
       "-e", "NODE_ENV=production",
+      "-e", "NODE_OPTIONS=--max-old-space-size=28672",
       "-e", "GOOGLE_APPLICATION_CREDENTIALS=/key.json",
       "-e", "GCS_BUCKET=pollux-enc-prod",
       "-e", "POLLUX_LN_GCS_BUCKET=gs://pollux-enc-prod",
@@ -30,6 +29,8 @@ containers:
       "-e", "EMBEDDING_SERVER_URL=pollux-embeddings-debug.inf6.tinfoil.sh",
       "-e", "TRAINING_SERVER_URL=https://pollux-training-debug.inf6.tinfoil.sh",
       "-e", "BETTER_AUTH_URL=https://pollux-garden-debug.inf6.tinfoil.sh",
+      "-e", "DEBUG_ARTEFACT_CHAT=true",
+      "-e", "EMAIL_VERIFY_ENABLED=false",
       "-e", "STAGING_DATABASE_URL=$(sed -n 's/^staging-database-url: *//p' /mnt/ramdisk/external-config.yml)",
       "-e", "DATABASE_URL=$(sed -n 's/^database-url: *//p' /mnt/ramdisk/external-config.yml)",
       "-e", "BETTER_AUTH_SECRET=$(awk -F': *' '$1~/^better-auth-secret$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
@@ -37,9 +38,12 @@ containers:
       "-e", "RESEND_FROM_EMAIL=$(awk -F': *' '$1~/^resend-from-email$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
       "-e", "GOOGLE_CLIENT_ID=$(awk -F': *' '$1~/^google-client-id$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
       "-e", "GOOGLE_CLIENT_SECRET=$(awk -F': *' '$1~/^google-client-secret$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
+      "-e", "NEXT_PUBLIC_GOOGLE_API_KEY=$(awk -F': *' '$1~/^next-public-google-api-key$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
+      "-e", "EXA_API_KEY=$(awk -F': *' '$1~/^exa-api-key$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
+      "-e", "TINFOIL_API_KEY=$(awk -F': *' '$1~/^tinfoil-api-key$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
+      "-e", "ADMIN_API_KEY=$(awk -F': *' '$1~/^admin-api-key$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
       "us-central1-docker.pkg.dev/workshop-labs-pbc/garden-docker/app@sha256:c876fbe766551a22fa19b21bdd01b9b2c13791b27d7df2c4503ec84e89033e7c"
     ]
-
 shim:
   listen-port: 443
   upstream-port: 3000
