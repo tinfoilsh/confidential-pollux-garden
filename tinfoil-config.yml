@@ -1,7 +1,8 @@
-shim-version: v0.2.14@sha256:24d59ce41ad00a05ab5a37708b0d8b07a7d09abb1b74b75ee4862f688d093949
-cvm-version: 0.5.8
+shim-version: v0.2.15@sha256:5ca748b384b78b7e686b57ca66d9b3c552038ebab2ce60305004f76e573a8458
+cvm-version: 0.5.9
 cpus: 16
 memory: 65536
+
 containers:
   - name: "gcsfuse"
     image: ""
@@ -42,8 +43,9 @@ containers:
       "-e", "EXA_API_KEY=$(awk -F': *' '$1~/^exa-api-key$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
       "-e", "TINFOIL_API_KEY=$(awk -F': *' '$1~/^tinfoil-api-key$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
       "-e", "ADMIN_API_KEY=$(awk -F': *' '$1~/^admin-api-key$/{print $2; exit}' /mnt/ramdisk/external-config.yml)",
-      "us-central1-docker.pkg.dev/workshop-labs-pbc/garden-docker/app@sha256:c876fbe766551a22fa19b21bdd01b9b2c13791b27d7df2c4503ec84e89033e7c"
+      "us-central1-docker.pkg.dev/workshop-labs-pbc/garden-docker/app@sha256:9bf6ba484b60c6f84e4598eadad279831de3ef68d5291bbed823211a5962eca9"
     ]
+
 shim:
   listen-port: 443
   upstream-port: 3000
