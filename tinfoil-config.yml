@@ -4,28 +4,15 @@ cpus: 16
 memory: 65536
 
 containers:
-  - name: "gcsfuse"
-    image: ""
-    args: [
-      "--cap-add", "SYS_ADMIN",
-      "--device", "/dev/fuse",
-      "--security-opt", "apparmor=unconfined",
-      "-v", "/mnt/ramdisk/gcs-bucket:/gcs:rshared",
-      "-v", "/mnt/ramdisk/gcloud_key.json:/key.json:ro",
-      "-e", "BUCKET_NAME=pollux-enc-prod",
-      "kapetacom/gcsfuse-ubuntu:v3.2.0"
-    ]
   - name: "garden-app"
     image: ""
     args: [
-      "-v", "/mnt/ramdisk/gcs-bucket:/mnt/gcs:ro",
       "-v", "/mnt/ramdisk/gcloud_key.json:/key.json:ro",
       "-e", "NODE_ENV=production",
       "-e", "NODE_OPTIONS=--max-old-space-size=28672",
       "-e", "GOOGLE_APPLICATION_CREDENTIALS=/key.json",
       "-e", "GCS_BUCKET=pollux-enc-prod",
       "-e", "POLLUX_LN_GCS_BUCKET=gs://pollux-enc-prod",
-      "-e", "POLLUX_GCSFUSE_MOUNT_PATH=/mnt/gcs",
       "-e", "SYNC_SERVER_URL=pollux-sync-debug.inf6.tinfoil.sh",
       "-e", "EMBEDDING_SERVER_URL=pollux-embeddings-debug.inf6.tinfoil.sh",
       "-e", "TRAINING_SERVER_URL=https://pollux-training-debug.inf6.tinfoil.sh",
