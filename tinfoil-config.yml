@@ -48,7 +48,7 @@ containers:
         "TINFOIL_API_KEY_BACKUP_ACCOUNT=$(sed -n 's/^TINFOIL_API_KEY_BACKUP_ACCOUNT: *//p' /mnt/ramdisk/external-config.yml)",
         "-e",
         "INFERENCE_SERVER_URL=https://confidential-pollux-inference.debug.wsl.functions.tinfoil.sh",
-        "us-central1-docker.pkg.dev/workshop-labs-pbc/garden-docker/app@sha256:294808a72c50e16d7093286c8f79b8f0dd91ea0e09167628a75d1080c7a66c39",
+        "us-central1-docker.pkg.dev/workshop-labs-pbc/garden-docker/app@sha256:f525c115e58d227b2aabed86e326a96bed0e0df1f8b2805afc91e64dcae1c90e",
       ]
 
 shim:
