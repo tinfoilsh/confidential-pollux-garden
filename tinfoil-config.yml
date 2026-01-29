@@ -1,55 +1,34 @@
-shim-version: v0.3.5@sha256:f44c65a1f7db476be20c3431bb6facea8c2966606a07fbb5724a619f82bfa558
-cvm-version: 0.5.15
+shim-version: v0.3.12@sha256:b81f2295ae6750d61e94f810ce24077360001b6ec795d13643f3170df29e304d
+cvm-version: 0.6.2
 cpus: 16
 memory: 65536
 
 containers:
   - name: "garden-app"
-    image: ""
-    args:
-      [
-        "-v",
-        "/mnt/ramdisk/gcloud_key.json:/key.json:ro",
-        "-e",
-        "NODE_ENV=production",
-        "-e",
-        "NODE_OPTIONS=--max-old-space-size=28672",
-        "-e",
-        "GOOGLE_APPLICATION_CREDENTIALS=/key.json",
-        "-e",
-        "GCS_BUCKET=pollux-enc-prod",
-        "-e",
-        "POLLUX_LN_GCS_BUCKET=gs://pollux-enc-prod",
-        "-e",
-        "SYNC_SERVER_URL=https://pollux-sync.debug.wsl.functions.tinfoil.sh",
-        "-e",
-        "EMBEDDING_SERVER_URL=https://confidential-pollux-embeddings.debug.wsl.functions.tinfoil.sh",
-        "-e",
-        "TRAINING_SERVER_URL=https://confidential-pollux-training.debug.wsl.functions.tinfoil.sh",
-        "-e",
-        "DEBUG_ARTEFACT_CHAT=true",
-        "-e",
-        "EMAIL_VERIFY_ENABLED=false",
-        "-e",
-        "DATABASE_URL=$(sed -n 's/^DATABASE_URL: *//p' /mnt/ramdisk/external-config.yml)",
-        "-e",
-        "BETTER_AUTH_SECRET=$(sed -n 's/^BETTER_AUTH_SECRET: *//p' /mnt/ramdisk/external-config.yml)",
-        "-e",
-        "RESEND_API_KEY=$(sed -n 's/^RESEND_API_KEY: *//p' /mnt/ramdisk/external-config.yml)",
-        "-e",
-        "GOOGLE_CLIENT_ID=$(sed -n 's/^GOOGLE_CLIENT_ID: *//p' /mnt/ramdisk/external-config.yml)",
-        "-e",
-        "GOOGLE_CLIENT_SECRET=$(sed -n 's/^GOOGLE_CLIENT_SECRET: *//p' /mnt/ramdisk/external-config.yml)",
-        "-e",
-        "EXA_API_KEY=$(sed -n 's/^EXA_API_KEY: *//p' /mnt/ramdisk/external-config.yml)",
-        "-e",
-        "TINFOIL_API_KEY=$(sed -n 's/^TINFOIL_API_KEY: *//p' /mnt/ramdisk/external-config.yml)",
-        "-e",
-        "TINFOIL_API_KEY_BACKUP_ACCOUNT=$(sed -n 's/^TINFOIL_API_KEY_BACKUP_ACCOUNT: *//p' /mnt/ramdisk/external-config.yml)",
-        "-e",
-        "INFERENCE_SERVER_URL=https://confidential-pollux-inference.debug.wsl.functions.tinfoil.sh/v1",
-        "us-central1-docker.pkg.dev/workshop-labs-pbc/garden-docker/app@sha256:d471ac6573534e6afc708ce795fc516e51adb77a99435d15dfd57b47c2b632b2",
-      ]
+    image: "us-central1-docker.pkg.dev/workshop-labs-pbc/garden-docker/app@sha256:d471ac6573534e6afc708ce795fc516e51adb77a99435d15dfd57b47c2b632b2"
+    volumes:
+      - /mnt/ramdisk/gcloud_key.json:/key.json:ro
+    env:
+      - NODE_ENV: "production"
+      - NODE_OPTIONS: "--max-old-space-size=28672"
+      - GOOGLE_APPLICATION_CREDENTIALS: "/key.json"
+      - GCS_BUCKET: "pollux-enc-prod"
+      - POLLUX_LN_GCS_BUCKET: "gs://pollux-enc-prod"
+      - SYNC_SERVER_URL: "https://pollux-sync.debug.wsl.functions.tinfoil.sh"
+      - EMBEDDING_SERVER_URL: "https://confidential-pollux-embeddings.debug.wsl.functions.tinfoil.sh"
+      - TRAINING_SERVER_URL: "https://confidential-pollux-training.debug.wsl.functions.tinfoil.sh"
+      - DEBUG_ARTEFACT_CHAT: "true"
+      - EMAIL_VERIFY_ENABLED: "false"
+      - INFERENCE_SERVER_URL: "https://confidential-pollux-inference.debug.wsl.functions.tinfoil.sh/v1"
+    secrets:
+      - DATABASE_URL
+      - BETTER_AUTH_SECRET
+      - RESEND_API_KEY
+      - GOOGLE_CLIENT_ID
+      - GOOGLE_CLIENT_SECRET
+      - EXA_API_KEY
+      - TINFOIL_API_KEY
+      - TINFOIL_API_KEY_BACKUP_ACCOUNT
 
 shim:
   listen-port: 443
